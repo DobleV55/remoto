@@ -8,15 +8,7 @@ month = 8
 
 current_month_days = [day for day in Calendar().itermonthdates(year, month) if day.weekday() not in [5,6] and day.month == month]
 
-dev =[
-            'leo', 
-            'mati', 
-             'diego', 
-            'eric', 
-            'mariano', 
-            'jorge', 
-            'mateo', 
-     ]
+dev =['leo', 'mati', 'diego', 'eric', 'mariano', 'jorge', 'mateo',]
 
 adm = ['yo', 'nadia', 'josh', 'pedro', 'gonza', 'timoteo', 'bauti']
 
@@ -27,6 +19,7 @@ GROUPS = [dev, adm]
 
 def choose_remoto_days(groups):
     #pdb.set_trace()
+    res = {}
     for members in groups:
       valid_days = current_month_days[:14]
       valid_days_2 = current_month_days[15:]
@@ -44,8 +37,8 @@ def choose_remoto_days(groups):
             print ("\n")
             print (remoto_2)
             print ("\n")
-   res[member]={remoto_1}
-
+            res[member]=[remoto_1, remoto_2]
+      print (res)
 if __name__ == '__main__':
     choose_remoto_days(GROUPS)
     #choose_remoto_days(groups)
