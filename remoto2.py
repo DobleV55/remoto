@@ -1,5 +1,6 @@
 from calendar import Calendar
 from collections import defaultdict
+import pprint
 import random
 import pdb
 
@@ -10,10 +11,13 @@ current_month_days = [day for day in Calendar().itermonthdates(year, month) if d
 
 dev =['leo', 'mati', 'diego', 'eric', 'mariano', 'jorge', 'mateo',]
 
-adm = ['yo', 'nadia', 'josh', 'pedro', 'gonza', 'timoteo', 'bauti']
+adm = ['yo', 'nadia', 'josh', 'monica', 'mauricio', 'timoteo', 'bauti']
 
+sales = ['Dominica', 'pedro', 'gonza', 'tarta', 'alan', 'julian']
 
-GROUPS = [dev, adm]
+consultoria = ['eze', 'lisandro', 'roberto', 'rodrigo', 'josefina', 'lisa']
+
+GROUPS = [dev, adm, sales, consultoria]
 
 #print (current_month_days)
 
@@ -21,24 +25,17 @@ def choose_remoto_days(groups):
     #pdb.set_trace()
     res = {}
     for members in groups:
-      valid_days = current_month_days[:14]
-      valid_days_2 = current_month_days[15:]
+      valid_days = current_month_days[:11]
+      valid_days_2 = current_month_days[12:]
       for member in members:      
             remoto_1 = (random.choice(valid_days))
             valid_days.remove(remoto_1)
             remoto_2 = (random.choice(valid_days_2))
             #pdb.set_trace()           
             valid_days_2.remove(remoto_2) 
-            print (valid_days)
-            print ("\n")
-            print (remoto_1)
-            print ("\n")
-            print (valid_days_2)
-            print ("\n")
-            print (remoto_2)
-            print ("\n")
-            res[member]=[remoto_1, remoto_2]
-      print (res)
+            res[member]=[remoto_1, remoto_2, ]
+    pprint.pprint(res)
+      #print (res)
 if __name__ == '__main__':
     choose_remoto_days(GROUPS)
     #choose_remoto_days(groups)
