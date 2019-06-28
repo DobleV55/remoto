@@ -2,7 +2,6 @@ from calendar import Calendar
 from collections import defaultdict
 import pprint
 import random
-import pdb
 
 year = 2019
 month = 8
@@ -19,23 +18,25 @@ consultoria = ['eze', 'lisandro', 'roberto', 'rodrigo', 'josefina', 'lisa']
 
 GROUPS = [dev, adm, sales, consultoria]
 
-#print (current_month_days)
+valid_days = current_month_days[:12]
+valid_days_2 = current_month_days[13:]
 
 def choose_remoto_days(groups):
-    #pdb.set_trace()
     res = {}
+    usados = defaultdict(int)
     for members in groups:
-      valid_days = current_month_days[:11]
-      valid_days_2 = current_month_days[12:]
       for member in members:      
             remoto_1 = (random.choice(valid_days))
-            valid_days.remove(remoto_1)
+            usados[remoto_1] += 1
+            if usados[remoto_1] == 3:
+                valid_days.remove(remoto_1)           
             remoto_2 = (random.choice(valid_days_2))
-            #pdb.set_trace()           
-            valid_days_2.remove(remoto_2) 
-            res[member]=[remoto_1, remoto_2, ]
+            usados[remoto_2] += 1          
+            if usados[remoto_2] == 3:
+                valid_days_2.remove(remoto_2) 
+            res[member]=[remoto_1, remoto_2]
     pprint.pprint(res)
-      #print (res)
+    pprint.pprint(usados)
+        
 if __name__ == '__main__':
     choose_remoto_days(GROUPS)
-    #choose_remoto_days(groups)
