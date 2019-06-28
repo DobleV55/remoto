@@ -39,4 +39,4 @@ def choose_remoto_days(groups):
     pprint.pprint(usados)
         
 if __name__ == '__main__':
-choose_remoto_days(GROUPS)
+    choose_remoto_days(GROUPS)
