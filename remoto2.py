@@ -1,14 +1,15 @@
 from __future__ import print_function
-import datetime
-import pickle
-import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from calendar import Calendar
 from collections import defaultdict
+import datetime
+import pickle
+import os.path
 import pprint
 import random
+import time
 
 year = 2019
 month = 8
@@ -43,23 +44,14 @@ def choose_remoto_days(groups):
                 valid_days_2.remove(remoto_2) 
             res[member]=[remoto_1, remoto_2]
     return res
-    #pprint.pprint(res)
-    #pprint.pprint(usados)
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def create_events(events):
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
     creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -67,7 +59,6 @@ def create_events(events):
             flow = InstalledAppFlow.from_client_secrets_file(
                 'storage.json', SCOPES)
             creds = flow.run_local_server()
-        # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
@@ -76,6 +67,7 @@ def create_events(events):
         for date in dates:
             event_data = create_event_data(member, date)
             event = service.events().insert(calendarId='primary', body=event_data).execute()
+            time.sleep(0.5)
             print ('Event created: %s' % (event.get('htmlLink')))
     
 def create_event_data(member, date):
@@ -83,29 +75,16 @@ def create_event_data(member, date):
         
     event = {
              'summary': member,
-              #'description': 'A chance to hear more about Google\'s developer products.',
               'start': {
                 'dateTime': date.isoformat(),
                 'timeZone': 'America/Los_Angeles',
-              },
+                       },
          'end': {
-            'dateTime': (date + datetime.timedelta(hours=20)).isoformat(),
+            'dateTime': (date + datetime.timedelta(hours=12)).isoformat(),
             'timeZone': 'America/Los_Angeles',
-          },
-          'recurrence': [
-          ],
-          'attendees': [
-            {'email': 'lpage@example.com'},
-            {'email': 'sbrin@example.com'},
-          ],
-          'reminders': {
-            'useDefault': False,
-            'overrides': [
-              {'method': 'email', 'minutes': 24 * 60},
-              {'method': 'popup', 'minutes': 10},
-            ],
-          },
-        }
+                }
+            }
+
     return event
 
 if __name__ == '__main__':
