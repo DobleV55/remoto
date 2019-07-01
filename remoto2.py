@@ -11,8 +11,6 @@ import pprint
 import random
 import time
 
-year = 2019
-month = 8
 
 current_month_days = [day for day in Calendar().itermonthdates(year, month) if day.weekday() not in [5,6] and day.month == month]
 
