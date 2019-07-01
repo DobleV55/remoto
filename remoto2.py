@@ -10,27 +10,56 @@ import os.path
 import pprint
 import random
 import time
+import click
+
+GROUP1 = ['leo', 'mati', 'diego', 'eric', 'mariano', 'jorge', 'mateo']
+
+GROUP2 = ['yo', 'nadia', 'josh', 'monica', 'mauricio', 'timoteo', 'bauti']
+
+GROUP3 = ['Dominica', 'pedro', 'gonza', 'tarta', 'alan', 'julian']
+
+GROUP4 = ['eze', 'lisandro', 'roberto', 'rodrigo', 'josefina', 'lisa']
+
+GROUPS = [GROUP1, GROUP2, GROUP3, GROUP4]
 
 
-current_month_days = [day for day in Calendar().itermonthdates(year, month) if day.weekday() not in [5,6] and day.month == month]
 
-dev =['leo', 'mati', 'diego', 'eric', 'mariano', 'jorge', 'mateo',]
+def menu(month, year, current_month_days):
+    menu_options = ['1. Start', '2.Select Month', '3.Select Year', '4. Set Employees', '5. Exit']    
+    print (menu_options)
+    option = click.prompt('Choose an option: ', type=int)
+    if option == 1:
+        #CHECK THIS
+        a = choose_remoto_days(GROUPS, current_month_days)
+        create_events(a)
+    if option == 2:
+        month = click.prompt("Enter your Selected Month(%%)", type=int)
+        if month >= 1 or month <= 12:
+            print('MONTH = %s' %(month))  
+            pass
+        else:
+            return
+        menu(month, year, current_month_days)
+    if option == 3:
+        year = click.prompt("Enter your Selected Year(%%%%)", type=int)
+        if year >= 1 or year <= 12:
+            print('YEAR = %s' %(year))  
+            pass
+        else:
+            return
+        menu(month, year, current_month_days)
+    if option == 4:
+        print ("Opcion en desarrollo...")
+        menu(month, year, current_month_days)
+    if option == 5:
+        exit()
 
-adm = ['yo', 'nadia', 'josh', 'monica', 'mauricio', 'timoteo', 'bauti']
-
-sales = ['Dominica', 'pedro', 'gonza', 'tarta', 'alan', 'julian']
-
-consultoria = ['eze', 'lisandro', 'roberto', 'rodrigo', 'josefina', 'lisa']
-
-GROUPS = [dev, adm, sales, consultoria]
-
-valid_days = current_month_days[:12]
-valid_days_2 = current_month_days[13:]
-
-def choose_remoto_days(groups):
+def choose_remoto_days(groups, current_month_days):
+    valid_days = current_month_days[:12]
+    valid_days_2 = current_month_days[13:]
     res = {}
     usados = defaultdict(int)
-    for members in groups:
+    for members in GROUPS:
       for member in members:      
             remoto_1 = (random.choice(valid_days))
             usados[remoto_1] += 1
@@ -85,6 +114,16 @@ def create_event_data(member, date):
 
     return event
 
+@click.command()
+@click.option('--month', default=8, prompt='month')
+@click.option('--year', default=2019, prompt='year',
+              help='The person to greet.')
+
+def main(month, year):
+    current_month_days = [day for day in Calendar().itermonthdates(year, month) if day.weekday() not in [5,6] and day.month == month]
+    menu(month, year, current_month_days)
+
 if __name__ == '__main__':
-    a = choose_remoto_days(GROUPS)
-    create_events(a)
+    main()
+
+
