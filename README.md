@@ -2,15 +2,15 @@
 
 First, clone the repo:
 ```
-https://github.com/DobleV55/remoto.git
+$ git clone https://github.com/DobleV55/remoto.git
 ```
-Then, enter to:
+Then, navigate to:
 ```
 https://developers.google.com/calendar/quickstart/python
 ```
 Click on ENABLE THE GOOGLE CALENDAR API and put those files into
 ```
-remoto/
+$ cd remoto/
 ```
 Install the requirements.txt:
 ```
