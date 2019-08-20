@@ -8,7 +8,7 @@ Then, navigate to:
 ```
 https://developers.google.com/calendar/quickstart/python
 ```
-Click on ENABLE THE GOOGLE CALENDAR API and put those files into
+Click on ENABLE THE GOOGLE CALENDAR API and DOWNLOAD CLIENT CONFIGURATION, put those files into
 ```
 $ cd remoto/
 ```
