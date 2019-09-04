@@ -1,5 +1,9 @@
 # ASIGNACION REMOTO EN EMPRESAS
 
+This .py, assign 2 (two) remoto days to each employee by month,
+3 (three) total members per day,
+and only 1 (one) member for each group to each day.
+
 First, clone the repo:
 ```
 $ git clone https://github.com/DobleV55/remoto.git
