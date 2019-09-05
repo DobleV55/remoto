@@ -36,12 +36,13 @@ def menu(month, year, current_month_days):
     else:
         return menu(month, year, current_month_days)
 
-def choose_remoto_days(groups, current_month_days): 
+def choose_remoto_days(groups, current_month_days):
     first_half = current_month_days[:int((len(current_month_days)/2))]
     second_half = current_month_days[int((len(current_month_days)/2)):]
     res = {}
     random.shuffle(first_half)
     usados = defaultdict(int)
+
     for members in GROUPS:
         aux = first_half.copy()
         aux2 = second_half.copy()
@@ -57,7 +58,7 @@ def choose_remoto_days(groups, current_month_days):
             res[member]=[remoto_1, remoto_2]
     return res
 
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+SCOPES = ['https://www.googleapis.com/auth/calendar.events']
 
 def create_events(events):
     creds = None
@@ -73,15 +74,25 @@ def create_events(events):
             creds = flow.run_local_server()
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
-
     service = build('calendar', 'v3', credentials=creds)
     for member, dates in events.items():
-        for date in dates:
-            event_data = create_event_data(member, date)
-            event = service.events().insert(calendarId='primary', body=event_data).execute()
-            time.sleep(0.5)
-            print ('Event created: %s' % (event.get('htmlLink')))
+            for date in dates:
+                event_data = create_event_data(member, date)
+                id = None
+                Cid = get_homework_calendar_id(id, service)
+                event = service.events().insert(calendarId = Cid, body=event_data).execute()
+                time.sleep(0.5)
+                print ('Event created: %s' % (event.get('htmlLink')))
             
+def get_homework_calendar_id(id, service):
+    calendar = service.calendarList().list().execute()
+    id = calendar['items'][0]['id']
+    if id.find('group.calendar.google.com') >= 0:
+        return id
+    else:
+        print('Cant locate Calendar id')
+        exit()
+
 def create_event_data(member, date):
     date = datetime.datetime.combine(date, datetime.datetime.min.time())
         
